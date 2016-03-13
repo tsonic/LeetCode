@@ -1,3 +1,5 @@
+//Given preorder and inorder traversal of a tree, construct the binary tree.
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -7,6 +9,8 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ 
+// scan preorder vector, and use the inorder vector to determine left or right child.
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
