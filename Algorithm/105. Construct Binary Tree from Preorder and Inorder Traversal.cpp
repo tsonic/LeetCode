@@ -56,3 +56,28 @@ public:
         return root;
     }
 };
+
+//recursive solution 
+//each subtree in preorder transversal correpsond to a continuous block in inorder transversal
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int,int> inorderHash;
+        //use hashtable to quickly look up to compare the relative location (to the left or to the right) of two nodes 
+        for (int i=0;i<inorder.size();i++)    {
+            inorderHash[inorder[i]]=i;
+        }
+        
+        return buildTreeRec(inorderHash,preorder,inorder,0,preorder.size(),0,preorder.size());
+    }
+    TreeNode* buildTreeRec(unordered_map<int,int> &inorderHash, vector<int>& preorder, vector<int>& inorder,int pstart,int pend,int instart,int inend)  {
+
+        if (pstart==pend ) return NULL;
+        TreeNode* root=new TreeNode(preorder[pstart]);
+        int leftSize=inorderHash[preorder[pstart]]-instart;
+
+        root->left=buildTreeRec(inorderHash,preorder,inorder,pstart+1,pstart+leftSize+1,instart,inorderHash[preorder[pstart]]);
+        root->right=buildTreeRec(inorderHash,preorder,inorder,pstart+leftSize+1,pend,inorderHash[preorder[pstart]]+1,inend);
+        return root;
+    }
+};
